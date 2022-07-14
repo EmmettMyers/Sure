@@ -8,3 +8,12 @@ Sure is a security-emphasized messaging app with:
  - Customizable profile pictures
  - Secure login system
  - Forgot password email verification
+ 
+ Tools used:
+  - JavaScript
+  - jQuery - Ajax
+  - PHP
+  - MySQL
+  - CSS - Bootstrap, Sass
+  - HTML
+  - phpMyAdmin, EmailJS, DeployHQ

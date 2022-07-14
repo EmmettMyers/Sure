@@ -1,0 +1,620 @@
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background: #3b3b3b;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb {
+  background: darkgrey;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: grey;
+}
+
+#homeTitle {
+  font-size: 140px;
+  -webkit-text-stroke: 2px #9c9c9c;
+}
+
+.userTxt, .userGo {
+  border: black;
+}
+
+.loginBottom {
+  color: #707070;
+  text-decoration: none;
+}
+
+.loginBottom:hover {
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.userGo {
+  background: steelblue;
+}
+
+.userGo:hover {
+  background: #30597a;
+}
+
+.passCreate {
+  display: none;
+}
+
+.btn-group .btn {
+  background: lightgray;
+}
+
+.btn-group .btn:hover, .btn-group .btn.active {
+  background: darkgrey;
+}
+
+.box {
+  width: 50px;
+  height: 50px;
+  background: lightgrey;
+}
+
+.box:hover, .box.active {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  cursor: pointer;
+  background: steelblue;
+}
+
+.colorBox {
+  width: 50px;
+  height: 50px;
+  background: lightgrey;
+}
+
+.colorBox:hover {
+  cursor: pointer;
+  -webkit-filter: brightness(75%);
+          filter: brightness(75%);
+}
+
+.colorPick {
+  width: 50px;
+}
+
+.colorPick .section {
+  height: 20px;
+  width: 27px;
+}
+
+.colorPick .section:hover {
+  cursor: pointer;
+  -webkit-filter: brightness(75%);
+          filter: brightness(75%);
+}
+
+.logGrid, .logColors {
+  width: 60%;
+  margin: auto;
+  height: 100%;
+  padding-top: 25px;
+  padding-bottom: 20px;
+  background: white;
+  border: black 2px solid;
+}
+
+.logColors {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.logSlides {
+  width: 80%;
+  margin: auto;
+  height: 100%;
+  padding-top: 25px;
+  padding-bottom: 20px;
+  background: white;
+  border: black 2px solid;
+}
+
+.slider {
+  width: 440px;
+  margin-bottom: 20px;
+  accent-color: steelblue;
+}
+
+.slider:hover {
+  cursor: pointer;
+}
+
+.modalEnd {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  color: white !important;
+  background: steelblue;
+  border: none;
+}
+
+.modalEnd:hover {
+  background: #30597a;
+}
+
+.vertCenter {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#navBar {
+  width: 150px;
+  height: 100vh;
+  border-right: 2px solid white;
+  position: relative;
+  z-index: 999;
+}
+
+#navBar #friends {
+  border: 0;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  position: absolute;
+  top: 13.5vh;
+  overflow-y: scroll;
+  width: 138px;
+  height: 86.5vh;
+}
+
+#navBar #menuContainer {
+  position: absolute;
+  top: 1.5vh;
+  left: 25px;
+}
+
+#navBar #menuContainer #menu {
+  border: 0px;
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
+  background: black;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+#navBar #menuContainer #menu #menuLogo {
+  width: 9vh;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
+#navBar #menuContainer #menu:hover {
+  background-color: steelblue;
+}
+
+#navBar #menuContainer #menuDrop {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  margin-left: 33px;
+  border: white 2px solid;
+}
+
+#navBar #menuContainer #menuDrop div {
+  cursor: pointer;
+  color: white;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+#navBar #menuContainer #menuDrop div:hover {
+  background: steelblue;
+  color: white;
+}
+
+#navBar .circle {
+  border: 3px solid steelblue;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  height: 85px;
+  width: 85px;
+  margin-left: 17px;
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+#navBar .circle.active, #navBar .circle:hover {
+  border: 10px solid steelblue;
+}
+
+#navBar .name {
+  font-size: 12px;
+  margin-left: 6px;
+  margin-top: 3px;
+  overflow: hidden;
+}
+
+.chatBox {
+  resize: both;
+  overflow: hidden;
+  display: none;
+  background: lightgrey;
+  width: 400px;
+  height: 400px;
+  min-width: 250px;
+  min-height: 150px;
+  position: absolute;
+  border: black solid 3px;
+}
+
+.chatBox .top {
+  width: 100%;
+  cursor: move;
+  height: 48px;
+  background: grey;
+  border-bottom: black 2px solid;
+}
+
+.chatBox .top .chatName {
+  color: black;
+  font-weight: bold;
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+}
+
+.chatBox .settingsLogo {
+  position: absolute;
+  top: 6px;
+  width: 35px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  left: 7px;
+}
+
+.chatBox .lockLogo {
+  position: absolute;
+  top: 8px;
+  width: 30px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  left: 45px;
+}
+
+.chatBox .windowLogo {
+  position: absolute;
+  top: 8px;
+  width: 30px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  right: 36px;
+}
+
+.chatBox .close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  color: black;
+}
+
+.chatBox .close:hover {
+  cursor: pointer;
+  color: white;
+}
+
+.chatBox .settingsLogo:hover, .chatBox .lockLogo:hover, .chatBox .windowLogo:hover {
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+  cursor: pointer;
+}
+
+.chatBox .chatArea {
+  height: 310px;
+  overflow-y: auto;
+}
+
+.chatBox .chatArea .myHolder {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  padding: 5px;
+}
+
+.chatBox .chatArea .myHolder .myChat {
+  background: #a5c9e9;
+  text-align: right;
+  max-width: 70%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+  color: black;
+  display: inline-block;
+}
+
+.chatBox .chatArea .theirHolder {
+  padding: 5px;
+}
+
+.chatBox .chatArea .theirHolder .theirChat {
+  background: darkgrey;
+  text-align: left;
+  max-width: 70%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+  color: black;
+  display: inline-block;
+}
+
+.chatBox .chatArea .theirHolder .theirChatName {
+  font-size: 12px;
+}
+
+.chatBox .textBox {
+  position: absolute;
+  bottom: -16px;
+}
+
+.chatBox .textBox .btn {
+  z-index: 0;
+  background: steelblue;
+  color: white !important;
+}
+
+.chatBox .textBox .btn:hover {
+  background: #30597a;
+}
+
+#addFriends {
+  display: none;
+  height: 100px;
+  width: 100vw;
+  background: steelblue;
+  border-bottom: white 2px solid;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#addFriends .content {
+  margin-left: 150px;
+}
+
+#addFriends .exit {
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  cursor: pointer;
+}
+
+#addFriends .exit:hover {
+  color: white;
+}
+
+#addFriends #requestSend {
+  z-index: 0;
+}
+
+#addFriends #sentMessage {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  top: 100px;
+}
+
+#requests {
+  display: none;
+  height: 50px;
+  width: 100vw;
+  background: steelblue;
+  border-bottom: white 2px solid;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#requests .content {
+  margin-left: 150px;
+}
+
+#requests .exit {
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  cursor: pointer;
+}
+
+#requests .exit:hover {
+  color: white;
+}
+
+#requests #requestMessage {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  top: 100px;
+}
+
+#requests .request {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 80px;
+  width: 100vw;
+  padding-top: 8px;
+  padding-left: 15px;
+  background: white;
+  border-top: 2px solid grey;
+  border-bottom: 2px solid grey;
+}
+
+#requests .request .circle {
+  border: 2px solid black;
+  width: 60px;
+  height: 60px;
+}
+
+#requests .request #name {
+  margin-top: 10px;
+  margin-left: 20px;
+  font-size: 25px;
+  color: black;
+}
+
+#requests .request .accept {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-weight: bold;
+  width: 100px;
+  height: 50px;
+  line-height: 43px;
+  background: lime;
+  border: 2px solid limegreen;
+  margin-top: 5px;
+  text-align: center;
+  position: absolute;
+  right: 135px;
+  cursor: pointer;
+}
+
+#requests .request .accept:hover {
+  background: limegreen;
+}
+
+#requests .request .decline {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-weight: bold;
+  width: 100px;
+  height: 50px;
+  line-height: 43px;
+  background: red;
+  border: 2px solid crimson;
+  margin-top: 5px;
+  text-align: center;
+  position: absolute;
+  right: 25px;
+  cursor: pointer;
+}
+
+#requests .request .decline:hover {
+  background: crimson;
+}
+
+#settings {
+  display: none;
+  height: 250px;
+  width: 100vw;
+  background: steelblue;
+  border-bottom: white 2px solid;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#settings .content {
+  margin-left: 150px;
+}
+
+#settings .exit {
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  cursor: pointer;
+}
+
+#settings .exit:hover {
+  color: white;
+}
+
+#settings #picArea {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#settings #picArea #profilePic {
+  margin-top: 7px;
+  margin-left: 25px;
+  border: 2px solid black;
+  width: 80px;
+  height: 80px;
+}
+
+#settings #picArea #tryAddress {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-weight: bold;
+  width: 120px;
+  height: 50px;
+  line-height: 43px;
+  background: orange;
+  border: 2px solid chocolate;
+  margin-top: 23px;
+  margin-left: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#settings #picArea #tryAddress:hover {
+  background: chocolate;
+}
+
+#settings #picArea #submitPic {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-weight: bold;
+  width: 155px;
+  height: 50px;
+  line-height: 43px;
+  background: lime;
+  border: 2px solid limegreen;
+  margin-top: 23px;
+  margin-left: 20px;
+  text-align: center;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#settings #picArea #submitPic:hover {
+  background: limegreen;
+}
+
+#requestSend, #redirectSend {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  background: black;
+}
+
+#requestSend:hover, #redirectSend:hover {
+  background: #454545;
+}
+/*# sourceMappingURL=style.css.map */

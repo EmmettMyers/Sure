@@ -101,7 +101,7 @@ body {
           filter: brightness(75%);
 }
 
-.logGrid, .logColors {
+#logGrid, #logColors {
   width: 60%;
   margin: auto;
   height: 100%;
@@ -111,12 +111,12 @@ body {
   border: black 2px solid;
 }
 
-.logColors {
+#logColors {
   padding-right: 20px;
   padding-left: 20px;
 }
 
-.logSlides {
+#logSlides {
   width: 80%;
   margin: auto;
   height: 100%;

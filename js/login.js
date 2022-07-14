@@ -150,6 +150,44 @@ $(document).ready(function(){
         emptyLoginInputs();
     });
 
+    $(document).on('click', '#userSubmit', function(){
+        emptyPassInputs();
+        resetCookies();
+        $(".error").html("");
+        var user = $("#userLogin").val();
+        $.ajax({ method: "POST", url: "ajax/login.php", 
+        data: { userLogin: user } }) 
+        .done(function(msg){
+            if (!msg.includes("not")){
+                $("#userLogin").attr({"placeholder":"", "value":user});
+                if (msg == "Text" || msg == "PIN"){
+                    $("#loginTxt").toggle();
+                    $("#passLogin").attr("placeholder", msg);
+                } else {
+                    showLogin(msg);
+                }
+            } else {
+                $(".error").html(msg);
+            }
+        });
+    });
+
+    $(document).on('click', '.log .modalEnd', function(){
+        var user = $("#userLogin").val();
+        var pass = $("#passLogin").val();
+        $.ajax({ method: "POST", url: "ajax/login.php", 
+        data: { userLogin: user, passLogin: pass } }) 
+        .done(function(msg){
+            resetCookies();
+            if (msg == "home.php"){
+                window.location.href = msg;
+            } else {
+                $(".error").html(msg);
+                if (msg.includes("not")) emptyPassInputs();
+            }
+        });
+    });
+
 });
 
 function emptyLoginInputs(){
@@ -157,6 +195,15 @@ function emptyLoginInputs(){
     $("#newPassError").html("");
     $(".accError").html("");
     $(".modal :text").val("");
+}
+
+function emptyPassInputs(){
+    $(".log").css("display", "none");
+    $("#logGrid").empty();
+    $(".logColorBoxes").empty();
+    $(".logColorPickers").empty();
+    $("#logColors .modalEnd").remove();
+    $("#logSlides .modalEnd").remove();
 }
 
 function resetCookies(){
@@ -179,22 +226,22 @@ function setGridCode(){
 }
 
 function showLogin(type){ jQuery(function($){
-    if (type == 'grid'){
-            $(".logGrid").css("display", "block");
-            for (var x = 0; x < 5; x++) $(".logGrid").append("<div id='"+x+"' class='row justify-content-center'></div>");
-            for (var x = 0; x < 5; x++) $(".logGrid .row").append("<div id='"+x+"' class='box' style='border: white 2px solid;'></div>");
-            $(".logGrid").append("<input name='submit' type='submit' class='btn mt-2 modalEnd' value='Go'>");
+    if (type == "Grid"){
+        $("#logGrid").css("display", "block");
+        for (var x = 0; x < 5; x++) $("#logGrid").append("<div id='"+x+"' class='row justify-content-center'></div>");
+        for (var x = 0; x < 5; x++) $("#logGrid .row").append("<div id='"+x+"' class='box' style='border: white 2px solid;'></div>");
+        $("#logGrid").append("<input name='submit' type='submit' class='btn mt-2 modalEnd' value='Go'>");
     }
-    else if (type == 'color'){
-            $(".logColors").css("display", "block");
-            for (var x = 1; x <= 6; x++){ 
-                $(".logColorBoxes").append("<div id='c"+x+"' class='colorBox'></div>");
-                $(".logColorPickers").append("<div id='pc"+x+"' class='colorPick'></div>");
-            }
-            $(".logColors").append("<input name='submit' type='submit' class='btn mt-2 modalEnd' value='Go'>");
+    else if (type == "Color"){
+        $("#logColors").css("display", "block");
+        for (var x = 1; x <= 6; x++){ 
+            $(".logColorBoxes").append("<div id='c"+x+"' class='colorBox'></div>");
+            $(".logColorPickers").append("<div id='pc"+x+"' class='colorPick'></div>");
+        }
+        $("#logColors").append("<input name='submit' type='submit' class='btn mt-2 modalEnd' value='Go'>");
     }
     else {
-            $(".logSlides").css("display", "block");
-            $(".logSlides").append("<input name='submit' type='submit' class='btn mt-2 modalEnd' value='Go'>");
+        $("#logSlides").css("display", "block");
+        $("#logSlides").append("<input name='submit' type='submit' class='btn mt-2 modalEnd' value='Go'>");
     }
 });}

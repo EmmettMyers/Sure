@@ -20,7 +20,7 @@
 include "ajax/connection.php";
 session_start();
 
-if (empty($_SESSION["user"])) echo '<script>window.location.href = "index.php";</script>';
+if (empty($_SESSION["user"])) echo '<script>window.location.href = "index.html";</script>';
 $user = $_SESSION["user"];
 $sql = "SELECT * FROM users WHERE username='$user'";
 $res = mysqli_query($conn, $sql);
@@ -61,7 +61,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                 <li><div class="dropdown-item" id="addFriendsMenu">Add Friends</div></li>
                 <li><div class="dropdown-item" id="requestsMenu">Friend Requests &nbsp;<span class="badge bg-success"></span></div></li>
                 <li><div class="dropdown-item" id="settingsMenu">Settings</div></li>
-                <li><div class="dropdown-item" onclick="location.href='index.php'">Logout</div></li>
+                <li><div class="dropdown-item" onclick="location.href='index.html'">Logout</div></li>
             </ul>
         </div>
         <ul id="friends" class="navbar-nav"></ul>

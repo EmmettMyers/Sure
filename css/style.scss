@@ -65,7 +65,7 @@ body {
         }
     }
 }
-.logGrid {
+#logGrid {
     width: 60%;
     margin: auto;
     height: 100%;
@@ -74,12 +74,12 @@ body {
     background: white;
     border: black 2px solid;
 }
-.logColors {
-    @extend .logGrid;
+#logColors {
+    @extend #logGrid;
     padding-right: 20px;
     padding-left: 20px;
 }
-.logSlides {
+#logSlides {
     width: 80%;
     margin: auto;
     height: 100%;

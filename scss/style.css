@@ -101,7 +101,7 @@ body {
           filter: brightness(75%);
 }
 
-#logGrid, #logColors {
+.logGrid, .logColors {
   width: 60%;
   margin: auto;
   height: 100%;
@@ -111,12 +111,12 @@ body {
   border: black 2px solid;
 }
 
-#logColors {
+.logColors {
   padding-right: 20px;
   padding-left: 20px;
 }
 
-#logSlides {
+.logSlides {
   width: 80%;
   margin: auto;
   height: 100%;
@@ -206,7 +206,7 @@ body {
 #navBar #menuContainer #menuDrop {
   -webkit-transition: 0.3s;
   transition: 0.3s;
-  margin-left: 33px;
+  margin-left: 30px;
   border: white 2px solid;
 }
 
@@ -392,6 +392,7 @@ body {
 }
 
 #addFriends {
+  z-index: 998;
   display: none;
   height: 100px;
   width: 100vw;
@@ -430,6 +431,7 @@ body {
 }
 
 #requests {
+  z-index: 998;
   display: none;
   height: 50px;
   width: 100vw;
@@ -530,6 +532,7 @@ body {
 }
 
 #settings {
+  z-index: 998;
   display: none;
   height: 250px;
   width: 100vw;
@@ -616,5 +619,19 @@ body {
 
 #requestSend:hover, #redirectSend:hover {
   background: #454545;
+}
+
+.createLock {
+  width: 100%;
+  height: auto;
+  background: white;
+}
+
+.lockLogin {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: #1a1a1a;
+  position: absolute;
 }
 /*# sourceMappingURL=style.css.map */

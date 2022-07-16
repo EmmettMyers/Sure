@@ -3,70 +3,7 @@ script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js';
 document.getElementsByTagName('head')[0].appendChild(script);
 if (window.history.replaceState) { window.history.replaceState( null, null, window.location.href ); }
 
-var id = 0; // which color box is selected by user
-var grid = [[0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]];
-var colorCode = "nnnnnn";
-
 $(document).ready(function(){
-
-    for (var x = 0; x < 5; x++) $("#Grid").append("<div id='"+x+"' class='row justify-content-center'></div>");
-    for (var x = 0; x < 5; x++) $("#Grid .row").append("<div id='"+x+"' class='box' style='border: white 2px solid;'></div>");
-    for (var x = 1; x <= 6; x++){ 
-        $(".colorBoxes").append("<div id='c"+x+"' class='colorBox'></div>");
-        $(".colorPickers").append("<div id='pc"+x+"' class='colorPick'></div>");
-    }
-
-    $(document).on('click', '.btn-group .btn', function(){
-        resetCookies();
-        $('#pass, #pin').val("");
-        $(".passCreate").css("display", "none");
-        $(".btn-group .btn").removeClass('active');
-        $(this).addClass('active');
-        $("#" + $(this).text()).toggle();
-    });
-
-    $(document).on('click', '.box', function(){
-        if ($(this).hasClass('active')){
-            $(this).removeClass('active');
-            grid[$(this.parentNode).attr('id')][$(this).attr('id')] = 0;
-        } else {
-            $(this).addClass('active');
-            grid[$(this.parentNode).attr('id')][$(this).attr('id')] = 1;
-        }
-        setGridCode();
-    });
-
-    $(document).on('click', '.colorBox', function(){
-        $(".section").remove();
-        id = $(this).attr('id');
-        var colors = ['red','orange','gold','green','blue','purple'];
-        for (var color of colors) $("#p"+id).append("<div style='background:"+color+";' class='section'></div>");
-    });
-
-    $(document).on('click', '.section', function(){ 
-        $(".section").remove();
-        var colorLetter = "";
-        ($(this).css("background")=='gold') ? colorLetter = "y" : colorLetter = $(this).css("background").substring(0,1);
-        var letterSpot = (id.substring(1,2))-1;
-        colorCode = colorCode.substring(0,letterSpot) + colorLetter + colorCode.substring(letterSpot+1);
-        document.cookie="colorCode=" + colorCode;
-        $("#"+id).css("background", $(this).css("background"));
-    });
-
-    $(".slider").mousemove(function(){
-        var slideValues = "";
-        var sliders = document.getElementsByClassName("slider");
-        for(var x = 0; x < 3; x++) slideValues += sliders[x].value;
-        document.cookie="slideCode="+slideValues;
-    });
-
-    jQuery('.pin').keyup(function () { 
-        this.value = this.value.replace(/[^0-9\.]/g,'');
-    });
 
     $(document).on('click', '#accSubmit', function(){
         var user = $("#username").val();
@@ -101,6 +38,7 @@ $(document).ready(function(){
             if (msg == "No accounts exist with that email"){
                 $("#forgotError").html(msg);
             } else {
+                $("#forgotError").html("");
                 var templateParams = {
                     email: email,
                     user: msg,
@@ -117,6 +55,7 @@ $(document).ready(function(){
         .done(function(msg){
             if (msg == "success"){
                 emptyLoginInputs();
+                $("#forgotError").html("");
                 $("#page1").css("display","none");
                 $("#page2").css("display","block");
                 var passScreen = $("#accPasswords").html();
@@ -151,7 +90,7 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '#userSubmit', function(){
-        emptyPassInputs();
+        emptyPassInputs("");
         resetCookies();
         $(".error").html("");
         var user = $("#userLogin").val();
@@ -164,7 +103,7 @@ $(document).ready(function(){
                     $("#loginTxt").toggle();
                     $("#passLogin").attr("placeholder", msg);
                 } else {
-                    showLogin(msg);
+                    showLogin(msg, "");
                 }
             } else {
                 $(".error").html(msg);
@@ -183,7 +122,7 @@ $(document).ready(function(){
                 window.location.href = msg;
             } else {
                 $(".error").html(msg);
-                if (msg.includes("not")) emptyPassInputs();
+                if (msg.includes("not")) emptyPassInputs("");
             }
         });
     });
@@ -196,52 +135,3 @@ function emptyLoginInputs(){
     $(".accError").html("");
     $(".modal :text").val("");
 }
-
-function emptyPassInputs(){
-    $(".log").css("display", "none");
-    $("#logGrid").empty();
-    $(".logColorBoxes").empty();
-    $(".logColorPickers").empty();
-    $("#logColors .modalEnd").remove();
-    $("#logSlides .modalEnd").remove();
-}
-
-function resetCookies(){
-    document.cookie="gridCode=0000000000000000000000000";
-    $(".box").removeClass('active');
-    grid = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]];
-    document.cookie="colorCode=nnnnnn";
-    $(".colorBox").css("background", "lightgrey");
-    document.cookie="slideCode=000";
-    $(".slider").val(0);
-    $("label").html("0");
-}
-
-function setGridCode(){
-    var gridString = "";
-    for(var x = 0; x < 5; x++)
-        for(var y = 0; y < 5; y++)
-            gridString += grid[x][y];
-    document.cookie="gridCode=" + gridString;
-}
-
-function showLogin(type){ jQuery(function($){
-    if (type == "Grid"){
-        $("#logGrid").css("display", "block");
-        for (var x = 0; x < 5; x++) $("#logGrid").append("<div id='"+x+"' class='row justify-content-center'></div>");
-        for (var x = 0; x < 5; x++) $("#logGrid .row").append("<div id='"+x+"' class='box' style='border: white 2px solid;'></div>");
-        $("#logGrid").append("<input name='submit' type='submit' class='btn mt-2 modalEnd' value='Go'>");
-    }
-    else if (type == "Color"){
-        $("#logColors").css("display", "block");
-        for (var x = 1; x <= 6; x++){ 
-            $(".logColorBoxes").append("<div id='c"+x+"' class='colorBox'></div>");
-            $(".logColorPickers").append("<div id='pc"+x+"' class='colorPick'></div>");
-        }
-        $("#logColors").append("<input name='submit' type='submit' class='btn mt-2 modalEnd' value='Go'>");
-    }
-    else {
-        $("#logSlides").css("display", "block");
-        $("#logSlides").append("<input name='submit' type='submit' class='btn mt-2 modalEnd' value='Go'>");
-    }
-});}

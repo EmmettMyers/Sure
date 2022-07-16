@@ -9,7 +9,8 @@
     <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
     <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="scss/style.css">
+    <script src="js/passwords.js"></script>
     <script src="js/home.js"></script>
     <title>Sure Home</title>
 </head>
@@ -20,7 +21,7 @@
 include "ajax/connection.php";
 session_start();
 
-if (empty($_SESSION["user"])) echo '<script>window.location.href = "index.html";</script>';
+if (empty($_SESSION["user"])) echo '<script>window.location.href = "index.php";</script>';
 $user = $_SESSION["user"];
 $sql = "SELECT * FROM users WHERE username='$user'";
 $res = mysqli_query($conn, $sql);
@@ -61,7 +62,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                 <li><div class="dropdown-item" id="addFriendsMenu">Add Friends</div></li>
                 <li><div class="dropdown-item" id="requestsMenu">Friend Requests &nbsp;<span class="badge bg-success"></span></div></li>
                 <li><div class="dropdown-item" id="settingsMenu">Settings</div></li>
-                <li><div class="dropdown-item" onclick="location.href='index.html'">Logout</div></li>
+                <li><div class="dropdown-item" onclick="location.href='index.php'">Logout</div></li>
             </ul>
         </div>
         <ul id="friends" class="navbar-nav"></ul>
@@ -111,12 +112,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     </div>
 </div>
 
-<div id="c0" class="chatBox" draggable="true"><div class="top"><div class="h4 chatName"></div></div><div class="body"></div></div>
-<div id="c1" class="chatBox" draggable="true"><div class="top"><div class="h4 chatName"></div></div><div class="body"></div></div>
-<div id="c2" class="chatBox" draggable="true"><div class="top"><div class="h4 chatName"></div></div><div class="body"></div></div>
-<div id="c3" class="chatBox" draggable="true"><div class="top"><div class="h4 chatName"></div></div><div class="body"></div></div>
-<div id="c4" class="chatBox" draggable="true"><div class="top"><div class="h4 chatName"></div></div><div class="body"></div></div>
-<div id="c5" class="chatBox" draggable="true"><div class="top"><div class="h4 chatName"></div></div><div class="body"></div></div>
+<div id="c0" class="chatBox"><div class="top"><div class="h4 chatName"></div></div><div class="lockBox"></div><div class="body"></div></div>
+<div id="c1" class="chatBox"><div class="top"><div class="h4 chatName"></div></div><div class="lockBox"></div><div class="body"></div></div>
+<div id="c2" class="chatBox"><div class="top"><div class="h4 chatName"></div></div><div class="lockBox"></div><div class="body"></div></div>
+<div id="c3" class="chatBox"><div class="top"><div class="h4 chatName"></div></div><div class="lockBox"></div><div class="body"></div></div>
+<div id="c4" class="chatBox"><div class="top"><div class="h4 chatName"></div></div><div class="lockBox"></div><div class="body"></div></div>
+<div id="c5" class="chatBox"><div class="top"><div class="h4 chatName"></div></div><div class="lockBox"></div><div class="body"></div></div>
 
 <div class="d-none" id="chatBoxTemplate">
     <img class="settingsLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Ic_settings_48px.svg/2048px-Ic_settings_48px.svg.png">
@@ -127,6 +128,80 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     <div class="input-group mb-3 textBox">
         <input type="text" name="message" class="form-control message">
         <button class="btn chatSend" type="submit">Send</button>
+    </div>
+</div>
+
+<div class="d-none" id="createLockTemplate">
+    <div class="pt-2 createLock">
+        <div id="lockPasswords">
+            <p id="lockError" class="text-center text-danger fw-bold"></p>
+            <p class="text-center">Choose a lock type:</p>
+            <div class="btn-group col-sm-12">
+                <button type="button" class="btn">Text</button>
+                <button type="button" class="btn">PIN</button>
+                <button type="button" class="btn">Grid</button>
+                <button type="button" class="btn">Color</button>
+                <button type="button" class="btn">Slides</button>
+            </div>
+            <div id="Text" class="ms-4 me-4 mt-3 passCreate">
+                <p class="text-center mt-3">Create a text lock with no restrictions</p>
+                <div class="input-group">
+                    <span style="background: lightgrey;" class="input-group-text">Lock</span>
+                    <input type="text" id="pass" name="passTxt" class="form-control">
+                </div>
+            </div>
+            <div id="PIN" class="ms-4 me-4 mt-3 passCreate">
+                <p class="text-center mt-3">Create a PIN lock using only numbers</p>
+                <div class="input-group">
+                    <span style="background: lightgrey;" class="input-group-text">PIN</span>
+                    <input type="text" id="pin" name="passPIN" class="form-control pin">
+                </div>
+            </div>
+            <div id="Grid" class="mt-3 passCreate">
+                <p class="text-center mt-3">Create a pattern lock by clicking the boxes</p>
+            </div>
+            <div id="Color" class="ms-5 me-5 passCreate">
+                <p class="text-center mt-3">Create an order lock by changing the box colors</p>
+                <div class="row justify-content-evenly colorBoxes"></div>
+                <div class="row justify-content-evenly mt-1 colorPickers"></div>
+            </div>
+            <div id="Slides" class="ms-4 passCreate">
+                <p class="text-center mt-3">Create a triple value lock by moving the sliders</p>
+                <input type="range" class="slider" value="0" min="0" max="99" 
+                oninput="document.getElementById('val1').innerHTML = this.value"/>
+                <label id="val1">0</label>
+                <input type="range" class="slider" value="0" min="0" max="99" 
+                oninput="document.getElementById('val2').innerHTML = this.value"/>
+                <label id="val2">0</label>
+                <input type="range" class="slider" value="0" min="0" max="99" 
+                oninput="document.getElementById('val3').innerHTML = this.value"/>
+                <label id="val3">0</label>
+            </div>
+            <div class="text-center">
+                <input id="lockSubmit" type='submit' class='btn mt-3 mb-5 modalEnd' value='Submit'>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="lock">
+    <div class="lockLogin">
+        <p class="text-center text-white fw-bold h3 mt-4 mb-4">This chat is locked.</p>
+        <div style="display: none;" class='input-group mt-4 loginTxt log'>
+            <span class='ms-3 input-group-text fw-bold text-white bg-secondary userTxt'>&#128274;</span>
+            <input type='text' class='form-control text passLogin' placeholder=''>
+            <input type='submit' class='me-3 btn modalEnd' value='Go'>
+        </div>
+        <div style="display: none; padding: 0; background: none;" class="border-0 text-center logGrid log"></div>
+        <div style="display: none; padding: 0; background: none;" class="border-0 text-center mt-3 mb-2 logColors log">
+            <div class="row justify-content-evenly logColorBoxes"></div>
+            <div class="row justify-content-evenly mt-1 logColorPickers"></div>
+        </div>
+        <div style="display: none; padding: 0; background: none;" class="border-0 text-center mt-3 mb-2 logSlides log">
+            <input type="range" class="s1 slider" value="0" min="0" max="99"><label class="text-white val1">0</label>
+            <input type="range" class="s2 slider" value="0" min="0" max="99"><label class="text-white val2">0</label>
+            <input type="range" class="s3 slider" value="0" min="0" max="99"><label class="text-white val3">0</label><br>
+        </div>
     </div>
 </div>
 

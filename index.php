@@ -9,8 +9,9 @@
     <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
     <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="scss/style.css">
     <script src="js/login.js"></script>
+    <script src="js/passwords.js"></script>
     <title>Sure Login</title>
 </head>
 
@@ -29,12 +30,12 @@
         <input type='text' id='passLogin' class='form-control text' placeholder=''>
         <input type='submit' class='btn modalEnd' value='Go'>
     </div>
-    <div style="display: none;" id="logGrid" class="text-center mt-3 mb-2 log"></div>
-    <div style="display: none;" id="logColors" class="text-center mt-3 mb-2 log">
+    <div style="display: none;" class="text-center mt-3 mb-2 logGrid log"></div>
+    <div style="display: none;" class="text-center mt-3 mb-2 logColors log">
         <div class="row justify-content-evenly logColorBoxes"></div>
         <div class="row justify-content-evenly mt-1 logColorPickers"></div>
     </div>
-    <div style="display: none;" id="logSlides" class="text-center mt-3 mb-2 log">
+    <div style="display: none;" class="text-center mt-3 mb-2 logSlides log">
         <input type="range" class="slider" value="0" min="0" max="99" 
         oninput="document.getElementById('logVal1').innerHTML = this.value"/>
         <label id="logVal1">0</label>
@@ -102,15 +103,9 @@
                     </div>
                     <div id="Slides" class="passCreate">
                         <p class="text-center mt-3">Create a triple value password by moving the sliders</p>
-                        <input type="range" class="slider" value="0" min="0" max="99" 
-                        oninput="document.getElementById('val1').innerHTML = this.value"/>
-                        <label id="val1">0</label>
-                        <input type="range" class="slider" value="0" min="0" max="99" 
-                        oninput="document.getElementById('val2').innerHTML = this.value"/>
-                        <label id="val2">0</label>
-                        <input type="range" class="slider" value="0" min="0" max="99" 
-                        oninput="document.getElementById('val3').innerHTML = this.value"/>
-                        <label id="val3">0</label>
+                        <input type="range" class="s1 slider" value="0" min="0" max="99"><label class="val1">0</label>
+                        <input type="range" class="s2 slider" value="0" min="0" max="99"><label class="val2">0</label>
+                        <input type="range" class="s3 slider" value="0" min="0" max="99"><label class="val3">0</label>
                     </div>
                 </div>
             </div>

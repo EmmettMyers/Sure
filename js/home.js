@@ -46,46 +46,90 @@ $(document).ready(function(){
         document.cookie="receiver="+friend;
         $('.message').val('');
         if (chatWindows.indexOf(friend) > -1){
+            var box = "#c"+chatWindows.indexOf(friend);
             $(this).removeClass('active');
-            $("#c"+chatWindows.indexOf(friend)).toggle();
+            $(box).toggle();
+            if ($(box+" .lockBox").html() != "" && $(box+" .lockBox").html().includes("createLock")){
+                $(box).css({"height":"400px","width":"400px"});
+                resetCookies();
+                $(box+" .btn").removeClass('active');
+                $(box+" .passCreate").css("display","none");
+                $(box+" .lockBox").empty();
+            }
             chatWindows[chatWindows.indexOf(friend)] = "";
         } else {
             $(this).addClass('active');
             var opening = chatWindows.indexOf("");
-            $("#c"+opening).append($("#chatBoxTemplate").html());
-            $("#c"+opening+" .chatName").html(friend);
-            $("#c"+opening).toggle();
+            var box = "#c"+opening;
+            $(box).append($("#chatBoxTemplate").html());
+            $(box+" .chatName").html(friend);
+            $(box).toggle();
             var tDiff = Math.floor(Math.random() * $(window).height()/9);
             var rDiff = Math.floor(Math.random() * $(window).width()/11);
             var diffSign = Math.floor(Math.random() * 2);
             (diffSign == 0) ? tDiff *= -1 : rDiff *= -1;
             var top = ($(window).height()/5) + tDiff;
             var right = ($(window).width()/5) + rDiff;
-            $("#c"+opening).css({"top":top,"right":right});
+            $(box).css({"top":top,"right":right});
             chatWindows[opening] = friend;
             setChats(friend);
+            $.ajax({ method: "POST", url: "ajax/chatLocks.php",
+            data: {friend: friend, checker:"isThereLock"} }).done(function(msg){
+                if (msg != "none"){
+                    $(box+" .textBox").css("display","none");
+                    $(box+" .lockBox").append($("#lock").html());
+                    $(box+" .lockLogo").css("pointer-events", "none");
+                    $(box+" .settingsLogo").css("pointer-events", "none");
+                    if (msg == "PIN" || msg == "Text"){
+                        $(box+" .loginTxt").show();
+                        $(box+" .passLogin").attr("placeholder", msg);
+                        $(box).css("height","225px");
+                    } else {
+                        showLogin(msg, box);
+                        if (msg == "Grid"){ 
+                            $(box).css("height","450px");
+                        } else if (msg == "Color"){
+                            $(box).css("width","500px"); 
+                            $(box).css("height","275px");
+                        } else if (msg == "Slides"){
+                            $(box).css("height","325px");
+                            $(box).css("width","600px");
+                        }
+                    }
+                }
+            });
         }
     });
 
     $(document).on('click', '.close', function(){
         var friend = chatWindows[$(this).parent().attr('id').substring(1)];
+        var box = "#c"+chatWindows.indexOf(friend);
         $("#"+friend).removeClass('active');
-        $("#c"+chatWindows.indexOf(friend)).toggle();
+        $(box).toggle();
+        if ($(box+" .lockBox").html() != "" && $(box+" .lockBox").html().includes("createLock")){
+            $(box).css({"height":"400px","width":"400px"});
+            resetCookies();
+            $(box+" .btn").removeClass('active');
+            $(box+" .passCreate").css("display","none");
+            var lockBox = $(box+" .lockBox").html();
+            $(box+" .lockBox").empty();
+            $("#createLockTemplate").append(lockBox);
+        }
         chatWindows[chatWindows.indexOf(friend)] = "";
     });
 
     $(document).on('click', '.windowLogo', function(){
         var id = $(this).parent().attr('id');
         if ($(this).width() == "25"){
-            $("#"+id).css({"width":"400px","height":"400px","margin":"auto","resize":"both"});
+            $("#"+id).css({"width":"400px","height":"400px","resize":"both","right":$(window).width()/5,"top":$(window).height()/5,"left":"auto"});
             $("#"+id+" .top").css("pointer-events", "auto");
             $("#"+id+" .windowLogo").css({"width":"30px","top":"8px","right":"36px"});
-            $("#"+id+" .windowLogo").attr("src", "http://findicons.com/files/icons/2315/default_icon/256/open_in_new_window.png");
+            $("#"+id+" .windowLogo").attr("src","http://findicons.com/files/icons/2315/default_icon/256/open_in_new_window.png");
         } else {      
-            $("#"+id).css({"width":$(window).width()-150,"height":"100vh","margin-left":"150px","resize":"none","top":"0","bottom":"0","left":"0","right":"0"});
+            $("#"+id).css({"width":$(window).width()-150,"height":"100vh","margin-left":"150px","resize":"none","top":"0","left":"0"});
             $("#"+id+" .top").css("pointer-events", "none");
             $("#"+id+" .windowLogo").css({"width":"25px","top":"12px","right":"40px"});
-            $("#"+id+" .windowLogo").attr("src", "http://cdn.onlinewebfonts.com/svg/img_509774.png");
+            $("#"+id+" .windowLogo").attr("src","http://cdn.onlinewebfonts.com/svg/img_509774.png");
         }
     });
 
@@ -143,12 +187,21 @@ $(document).ready(function(){
         var decision = "";
         ($(this).attr('class').includes("accept")) ? decision = "y" : decision = "n";
         $.ajax({ method: "POST", url: "ajax/friendRequest.php", data: {friend: friend,decision: decision} }) .done(function(){
-            $("#insertRequests").empty();
-            setRequests();
-            if (decision == "y") {
-                $.ajax({ method: "POST", url: "ajax/friendRequest.php", data: {accept:"accept"} }) 
-                .done(function(friends){ showFriendChats(friends); });
-            }
+            $.ajax({ method: "POST", url: "ajax/friendRequest.php"}) .done(function(msg){
+                var requests = msg.substring(1);
+                var numRequests = 0;
+                while (requests.includes(";") && requests.length>1){
+                    numRequests++;
+                    requests = requests.substring(requests.indexOf(";")+1);
+                }
+                (numRequests == 0) ? $(".badge").html("") : $(".badge").html(numRequests);
+                $("#insertRequests").empty();
+                setRequests();
+                if (decision == "y") {
+                    $.ajax({ method: "POST", url: "ajax/friendRequest.php", data: {accept:"accept"} }) 
+                    .done(function(friends){ showFriendChats(friends); });
+                }
+            });
         });
     });
 
@@ -181,6 +234,89 @@ $(document).ready(function(){
         changedRedirect = url;
         $("#redirect").val("");
         $.ajax({ method: "POST", url: "ajax/profilePic.php", data: {redirect:url} });
+    });
+
+    $(document).on('click', '.lockLogo', function(){
+        var box = "#"+$($(this).parent()).attr("id");
+        var friend = chatWindows[box.substring(2)];
+        $.ajax({ method: "POST", url: "ajax/chatLocks.php",
+        data: {friend: friend, checker:"isThereLock"} }).done(function(msg){
+            if (msg != "none"){
+                // change or remove password
+            } else {
+                if ($("#createLockTemplate").html() == "" && $(box+" .lockBox").html() == ""){
+                    var oldBox = "";
+                    for (var x = 0; x < 5; x++)
+                        if ($("#c"+x+" .lockBox").html() != "")
+                            oldBox = "#c"+x;
+                    var oldLockBox = $(oldBox+" .lockBox").html();
+                    $(oldBox+" .lockBox").empty();
+                    $("#createLockTemplate").append(oldLockBox);
+                    $(oldBox+" .textBox").show();
+                    $(oldBox).css({"height":"400px","width":"400px"});
+                    $(box+" .windowLogo").css("pointer-events", "auto");
+                }
+                resetCookies();
+                $(box+" .btn").removeClass('active');
+                $(box+" .passCreate").css("display","none");
+                if ($("#createLockTemplate").html() != ""){
+                    var lockBox = $("#createLockTemplate").html();
+                    $("#createLockTemplate").empty();
+                    $(box+" .lockBox").append(lockBox);
+                    $(box+" .textBox").css("display","none");
+                    $(box).css({"height":$(box+" .createLock").height()+48,"width":"525px"});
+                    $(box+" .windowLogo").css("pointer-events", "none");
+                } else {
+                    var lockBox = $(box+" .lockBox").html();
+                    $(box+" .lockBox").empty();
+                    $("#createLockTemplate").append(lockBox);
+                    $(box+" .textBox").show();
+                    $(box).css({"height":"400px","width":"400px"});
+                    $(box+" .windowLogo").css("pointer-events", "auto");
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '#lockSubmit', function(){
+        var box = "#"+($(this).parent().parent().parent().parent().parent()).attr('id');
+        var friend = chatWindows[$($(this).parent().parent().parent().parent().parent()).attr('id').substring(1)];
+        var pass = $("#pass").val();
+        var pin = $("#pin").val();
+        $.ajax({ method: "POST", url: "ajax/chatLocks.php",
+        data: {friend: friend, lockTxt: pass, lockPIN: pin, create: "yes"} })
+        .done(function(msg){
+            if (msg != "success"){
+                $("#lockError").html(msg);
+            } else {
+                $("#lockError").html("");
+                var lockBox = $(box+" .lockBox").html();
+                $(box+" .lockBox").empty();
+                $("#createLockTemplate").append(lockBox);
+                $(box+" .textBox").show();
+                $(box).css({"height":"400px","width":"400px"});
+                $(box+" .windowLogo").css("pointer-events", "auto");
+            }
+        });
+    });
+
+    $(document).on('click', '.log .modalEnd', function(){
+        var box = "#"+$($(this).parent().parent().parent().parent()).attr('id');
+        var friend = chatWindows[$($(this).parent().parent().parent().parent()).attr('id').substring(1)];
+        var pass = $(".passLogin").val();
+        $.ajax({ method: "POST", url: "ajax/chatLocks.php", 
+        data: { friend: friend, passLogin: pass } }) 
+        .done(function(msg){
+            resetCookies();
+            if (msg == "correct"){
+                emptyPassInputs(box);
+                $(box+" .lockBox").empty();
+                $(box+" .textBox").show();
+                $(box+" .lockLogo").css("pointer-events", "auto");
+                $(box+" .settingsLogo").css("pointer-events", "auto");
+                $(box).css({"height":"400px","width":"400px"});
+            }
+        });
     });
 
 });

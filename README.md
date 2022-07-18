@@ -12,8 +12,7 @@ Sure is a security-emphasized messaging app with:
  - Forgot password email verification
  
  Tools used:
-  - JavaScript
-  - jQuery
+  - JavaScript - jQuery
   - PHP
   - MySQL
   - CSS - Bootstrap, Sass

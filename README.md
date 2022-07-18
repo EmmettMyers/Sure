@@ -13,7 +13,7 @@ Sure is a security-emphasized messaging app with:
  
  Tools used:
   - JavaScript
-  - jQuery - Ajax
+  - jQuery
   - PHP
   - MySQL
   - CSS - Bootstrap, Sass

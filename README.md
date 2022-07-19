@@ -9,6 +9,7 @@ Sure is a security-emphasized messaging app with:
  - Add/Request/Remove friends features
  - Customizable profile pictures
  - Secure login system
+ - Remove all chat locks with email verification
  - Forgot password email verification
  
  Tools used:

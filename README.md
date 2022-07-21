@@ -8,6 +8,7 @@ Sure is a security-emphasized messaging website with:
  - Customizable redirect URL when webpage is double-clicked
  - Edit/Delete options for any text you send
  - Synchronous messaging with multiple users in different chats 
+ - Resizable and draggable chatboxes to allow maximum chat use
  - Add/Request/Remove friends features
  - Customizable profile pictures
  - Secure login system

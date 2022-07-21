@@ -1,5 +1,7 @@
 # Sure
 
+URL: https://suremessaging.000webhostapp.com/index.php
+
 Sure is a security-emphasized messaging website with:
  - 5 types of passwords (text, pin, grid, colors, slides)
  - Password locks on chats (optional and removable)
@@ -18,4 +20,4 @@ Sure is a security-emphasized messaging website with:
   - MySQL
   - CSS - Bootstrap, Sass
   - HTML
-  - phpMyAdmin, EmailJS, DeployHQ
+  - phpMyAdmin, EmailJS

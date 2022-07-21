@@ -4,10 +4,25 @@ include "connection.php";
 session_start();
 
 $user = $_SESSION["user"];
-$friend = $_POST["friend"];
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
-    if (!empty($_POST["checker"])){
+    if (!empty($_POST["removeAll"])){
+        $sql = "DELETE FROM locks WHERE user='$user'";
+        if ($conn->query($sql) === FALSE){ 
+            echo "Error: " . $sql . "<br>" . $conn->error; 
+        } else {
+            echo 'success';
+        }
+    } else if (!empty($_POST["action"])){
+        $friend = $_POST["friend"];
+        $sql = "DELETE FROM locks WHERE user='$user' AND friend='$friend'";
+        if ($conn->query($sql) === FALSE){ 
+            echo "Error: " . $sql . "<br>" . $conn->error; 
+        } else {
+            echo 'success';
+        }
+    } else if (!empty($_POST["checker"])){
+        $friend = $_POST["friend"];
         $sql = "SELECT * FROM locks WHERE user='$user' AND friend='$friend'";
         $res = mysqli_query($conn, $sql);
         if (mysqli_num_rows($res) > 0) {
@@ -17,6 +32,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             echo "none";
         }
     } else if (!empty($_POST["create"])){
+        $friend = $_POST["friend"];
         $lockType = "";
         $lock = "";
         if (!empty($_POST["lockTxt"])){
@@ -46,6 +62,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             }
         }
     } else {
+        $friend = $_POST["friend"];
         if ($_COOKIE['gridCode'] != "0000000000000000000000000"){
             $pass = $_COOKIE['gridCode'];
         } else if ($_COOKIE['colorCode'] != "nnnnnn"){

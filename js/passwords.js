@@ -25,6 +25,7 @@ $(document).ready(function(){
         $('#pass, #pin').val("");
         $(".passCreate").css("display", "none");
         $(".btn-group .btn").removeClass('active');
+        $(".section").remove();
         $(this).addClass('active');
         $("#" + $(this).text()).toggle();
         var box = "#"+$($(this).parent().parent().parent().parent().parent()).attr("id");
@@ -81,7 +82,7 @@ $(document).ready(function(){
         document.cookie="slideCode="+slideValues;
     });
 
-    jQuery('.pin').keyup(function () { 
+    $(document).on('keyup', '.pin', function(){ 
         this.value = this.value.replace(/[^0-9\.]/g,'');
     });
 

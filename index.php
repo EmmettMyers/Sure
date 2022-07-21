@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="scss/style.css">
     <script src="js/login.js"></script>
     <script src="js/passwords.js"></script>
+    <link rel="icon" href="https://www.pngall.com/wp-content/uploads/2/S-Letter-PNG-Image-HD.png">
+    <style type="text/css">.disclaimer { display: none; }</style>
     <title>Sure Login</title>
 </head>
 
@@ -20,12 +22,12 @@
 <div class="container">
     <p id="homeTitle" class="text-center mt-5 mb-1 fw-bold text-black">Sure</p>
     <p class="text-center text-danger fw-bold error"></p>
-    <div class='input-group sm-5'>
+    <div class='input-group mx-auto' id="usernameInput">
         <span class='input-group-text fw-bold text-white bg-black userTxt'>@</span>
         <input type='text' id='userLogin' class='form-control text userTxt' placeholder='Username' value=''>
         <input id='userSubmit' type='submit' class='btn modalEnd' value='Enter'>
     </div>
-    <div style="display: none;" id='loginTxt' class='input-group sm-5 mt-3 log'>
+    <div style="display: none; width: 700px;" id='loginTxt' class='input-group mx-auto mt-3 log'>
         <span class='input-group-text fw-bold text-white bg-black userTxt'>&#128274;</span>
         <input type='text' id='passLogin' class='form-control text' placeholder=''>
         <input type='submit' class='btn modalEnd' value='Go'>

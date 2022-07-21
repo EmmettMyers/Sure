@@ -1,9 +1,31 @@
 <?php
 
 include "connection.php";
+session_start();
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
-    if (!empty($_POST["username"]) && !empty($_POST["email"])){
+    if (!empty($_POST["delete"])){
+        $user = $_SESSION["user"];
+        $sql = "DELETE FROM users WHERE username='$user';
+                DELETE FROM messages WHERE sender='$user';
+                DELETE FROM messages WHERE receiver='$user';
+                DELETE FROM locks WHERE user='$user'; ";
+        if ($conn->multi_query($sql) === FALSE) { echo "Error: " . $sql . "<br>" . $conn->error; }
+        $query = "SELECT * FROM users";
+        $result = mysqli_query($conn, $query);
+        while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
+            $friend = $row[0];
+            if(strpos($row[6], $user) > -1){
+                $newFriends = substr($row[6],0,strpos($row[6],$user)) . substr($row[6],strpos($row[6],$user)+strlen($user)+1);
+                $sql = "UPDATE users SET friends='$newFriends' WHERE username='$friend'";
+                if ($conn->query($sql) === FALSE) { echo "Error: " . $sql . "<br>" . $conn->error; }
+            } else if (strpos($row[7], $user) > -1){
+                $newRequests = substr($row[7],0,strpos($row[7],$user)) . substr($row[7],strpos($row[7],$user)+strlen($user)+1);
+                $sql = "UPDATE users SET requests='$newRequests' WHERE username='$friend'";
+                if ($conn->query($sql) === FALSE) { echo "Error: " . $sql . "<br>" . $conn->error; }
+            }
+        }
+    } else if (!empty($_POST["username"]) && !empty($_POST["email"])){
         $user = test_input($_POST["username"]);
         $email = test_input($_POST["email"]);
         $sql_u = "SELECT * FROM users WHERE username='$user'";

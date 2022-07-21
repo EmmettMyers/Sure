@@ -94,21 +94,24 @@ $(document).ready(function(){
         resetCookies();
         $(".error").html("");
         var user = $("#userLogin").val();
-        $.ajax({ method: "POST", url: "ajax/login.php", 
-        data: { userLogin: user } }) 
-        .done(function(msg){
-            if (!msg.includes("not")){
-                $("#userLogin").attr({"placeholder":"", "value":user});
-                if (msg == "Text" || msg == "PIN"){
-                    $("#loginTxt").toggle();
-                    $("#passLogin").attr("placeholder", msg);
+        if (user == "") $("#userLogin").attr("placeholder", "Username");
+        else {
+            $.ajax({ method: "POST", url: "ajax/login.php", 
+            data: { userLogin: user } }) 
+            .done(function(msg){
+                if (!msg.includes("not")){
+                    $("#userLogin").attr({"placeholder":"", "value":user});
+                    if (msg == "Text" || msg == "PIN"){
+                        $("#loginTxt").toggle();
+                        $("#passLogin").attr("placeholder", msg);
+                    } else {
+                        showLogin(msg, "");
+                    }
                 } else {
-                    showLogin(msg, "");
+                    $(".error").html(msg);
                 }
-            } else {
-                $(".error").html(msg);
-            }
-        });
+            });
+        } 
     });
 
     $(document).on('click', '.log .modalEnd', function(){

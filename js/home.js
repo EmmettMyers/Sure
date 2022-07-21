@@ -19,6 +19,7 @@ $(document).ready(function(){
         while (requests.includes(";") && requests.length>1){
             numRequests++;
             requests = requests.substring(requests.indexOf(";")+1);
+            requests = requests.substring(requests.indexOf(";")+1);
         }
         if (numRequests != 0) $(".badge").html(numRequests);
     });
@@ -50,16 +51,18 @@ $(document).ready(function(){
             $(this).removeClass('active');
             $(box).toggle();
             if ($(box+" .lockBox").html() != "" && $(box+" .lockBox").html().includes("createLock")){
-                $(box).css({"height":"400px","width":"400px"});
                 resetCookies();
                 $(box+" .btn").removeClass('active');
                 $(box+" .passCreate").css("display","none");
                 $(box+" .lockBox").empty();
             }
+            $(box).css({"height":"400px","width":"400px"});
+            $(box+" .lockBox").empty();
             chatWindows[chatWindows.indexOf(friend)] = "";
         } else {
             $(this).addClass('active');
             var opening = chatWindows.indexOf("");
+            if (opening == -1) return;
             var box = "#c"+opening;
             $(box).append($("#chatBoxTemplate").html());
             $(box+" .chatName").html(friend);
@@ -107,7 +110,6 @@ $(document).ready(function(){
         $("#"+friend).removeClass('active');
         $(box).toggle();
         if ($(box+" .lockBox").html() != "" && $(box+" .lockBox").html().includes("createLock")){
-            $(box).css({"height":"400px","width":"400px"});
             resetCookies();
             $(box+" .btn").removeClass('active');
             $(box+" .passCreate").css("display","none");
@@ -115,6 +117,8 @@ $(document).ready(function(){
             $(box+" .lockBox").empty();
             $("#createLockTemplate").append(lockBox);
         }
+        $(box).css({"height":"400px","width":"400px"});
+        $(box+" .lockBox").empty();
         chatWindows[chatWindows.indexOf(friend)] = "";
     });
 
@@ -242,8 +246,16 @@ $(document).ready(function(){
         $.ajax({ method: "POST", url: "ajax/chatLocks.php",
         data: {friend: friend, checker:"isThereLock"} }).done(function(msg){
             if (msg != "none"){
-                // change or remove password
+                if ($(box+" .lockBox").html().includes("chatSet")){
+                    $(box+" .lockBox").empty();
+                    $(box+" .lockBox").append($("#lockSettings").html());
+                } else if ($(box+" .lockBox").html() == ""){
+                    $(box+" .lockBox").append($("#lockSettings").html());
+                } else {
+                    $(box+" .lockBox").empty();
+                }
             } else {
+                $(box+" .lockBox").empty();
                 if ($("#createLockTemplate").html() == "" && $(box+" .lockBox").html() == ""){
                     var oldBox = "";
                     for (var x = 0; x < 5; x++)
@@ -319,19 +331,149 @@ $(document).ready(function(){
         });
     });
 
+    $(document).on('click', '.changeLock, .deleteLock', function(){
+        var action = $(this).attr('class').substring(0, $(this).attr('class').indexOf("L"));
+        var box = "#"+$($(this).parent().parent().parent()).attr('id');
+        var friend = chatWindows[$($(this).parent().parent().parent()).attr('id').substring(1)];
+        $.ajax({ method: "POST", url: "ajax/chatLocks.php", 
+        data: { friend: friend, action: action } }) .done(function(){
+            $(box+" .lockBox").empty();
+            if (action == "change"){
+                if ($("#createLockTemplate").html() == ""){
+                    var oldBox = "";
+                    for (var x = 0; x < 5; x++)
+                        if ($("#c"+x+" .lockBox").html() != "")
+                            oldBox = "#c"+x;
+                    var oldLockBox = $(oldBox+" .lockBox").html();
+                    $(oldBox+" .lockBox").empty();
+                    $("#createLockTemplate").append(oldLockBox);
+                    $(oldBox+" .textBox").show();
+                    $(oldBox).css({"height":"400px","width":"400px"});
+                    $(box+" .windowLogo").css("pointer-events", "auto");
+                }
+                resetCookies();
+                var lockBox = $("#createLockTemplate").html();
+                $("#createLockTemplate").empty();
+                $(box+" .lockBox").append(lockBox);
+                $(box+" .btn").removeClass('active');
+                $(box+" .passCreate").css("display","none");
+                $(box+" .textBox").css("display","none");
+                $(box).css({"height":$(box+" .createLock").height()+48,"width":"525px"});
+                $(box+" .windowLogo").css("pointer-events", "none");
+            }
+        });
+    });
+
+    $(document).on('click', '.settingsLogo', function(){
+        var box = "#"+$($(this).parent()).attr("id");
+        if ($(box+" .lockBox").html().includes("createLock")){
+            var lockBox = $(box+" .lockBox").html();
+            $(box+" .lockBox").empty();
+            $("#createLockTemplate").append(lockBox);
+            $(box+" .textBox").show();
+            $(box).css({"height":"400px","width":"400px"});
+            $(box+" .windowLogo").css("pointer-events", "auto");
+            $(box+" .lockBox").append($("#chatSettings").html());
+        } else if ($(box+" .lockBox").html().includes("lockSet") || $(box+" .lockBox").html().includes("createLock") ){
+            $(box+" .lockBox").empty();
+            $(box+" .lockBox").append($("#chatSettings").html());
+        } else if ($(box+" .lockBox").html() == ""){
+            $(box+" .lockBox").append($("#chatSettings").html());
+        } else {
+            $(box+" .lockBox").empty();
+        }
+    });
+
+    $(document).on('click', '.removeFriend', function(){
+        var box = "#"+$($(this).parent().parent().parent()).attr('id');
+        var friend = chatWindows[box.substring(2)];
+        $.ajax({ method: "POST", url: "ajax/friendRequest.php", 
+        data: { friend: friend, delete: "yes" } }) .done(function(msg){
+            showFriendChats(msg);
+            $(box).toggle();
+            $(box).css({"height":"400px","width":"400px"});
+            $(box+" .lockBox").empty();
+            chatWindows[chatWindows.indexOf(friend)] = "";
+        });
+    });
+
+    $(document).on('click', '.deleteChats', function(){
+        var box = "#"+$($(this).parent().parent().parent()).attr('id');
+        var friend = chatWindows[box.substring(2)];
+        $.ajax({ method: "POST", url: "ajax/getChats.php", 
+        data: { friend: friend } }) .done(function(){
+            setChats(friend);
+            $(box+" .lockBox").empty();
+        });
+    });
+
+    $(document).on('click', '#resetLocks', function(){
+        var user = getUser();
+        var email = getEmail();
+        var templateParams = {
+            email: email,
+            user: user
+        };
+        emailjs.send('service_4d1p0wc', 'template_ophfn24', templateParams);
+        $("#emailSent").show();
+        setTimeout(function() { $("#emailSent").fadeOut().empty(); }, 3000);
+    });
+
+    $(document).on('click', '#deleteAcc', function(){
+        $.ajax({ method: "POST", url: "ajax/signup.php", 
+        data: { delete: "yes" } }) .done(function(){
+            window.location.href = "index.php";
+        });
+    });
+
+    $(document).on('click', '.myChat', function(){
+        if ($(this).parent().html().includes("textOptions"))
+            $(this).parent().find(".textOptions").remove();
+        else 
+            $(this).parent().prepend("<div class='textOptions'><div class='edit'>Edit</div>&#9679;<div class='delete'>Delete</div></div>");
+    });
+    $(document).on('click', '.edit', function(){
+        $(this).parent().parent().find(".myChat").attr("contenteditable", "true");
+        $(this).parent().parent().find(".myChat").css("pointer-events", "none");
+        $(this).parent().parent().find(".textOptions").html("<div class='save'>Save Edits</div>&#9679;<div class='cancel'>Cancel</div>");
+    });
+    $(document).on('click', '.delete', function(){
+        var friend = chatWindows[$(this).parent().parent().parent().parent().attr("id").substring(1)];
+        var content = $(this).parent().parent().find(".myChat").html();
+        $.ajax({ method: "POST", url: "ajax/chatOptions.php", 
+        data: { friend: friend, action: "delete", content: content } }) .done(function(){
+            setChats(friend);
+        });
+    });
+    $(document).on('click', '.save', function(){
+        var friend = chatWindows[$(this).parent().parent().parent().parent().attr("id").substring(1)];
+        var content = $(this).parent().parent().find(".myChat").html();
+        $.ajax({ method: "POST", url: "ajax/chatOptions.php", 
+        data: { friend: friend, action: "edit", content: content } }) .done(function(){
+            setChats(friend);
+        });
+    });
+    $(document).on('click', '.cancel', function(){
+        $(this).parent().parent().find(".myChat").attr("contenteditable", "false");
+        $(this).parent().parent().find(".myChat").css("pointer-events", "auto");
+        $(this).parent().parent().find(".textOptions").html("<div class='edit'>Edit</div>&#9679;<div class='delete'>Delete</div>");
+    });
+
 });
 
 function setRequests(){
-    $.ajax({ method: "POST", url: "ajax/friendRequest.php"}) .done(function(msg){
-        var requests = msg.substring(1);
+    $("#insertRequests").empty();
+    $.ajax({ method: "POST", url: "ajax/friendRequest.php"}) .done(function(requests){
         if (requests.length==0){
             $(".requestTitle").html("You do not have any friend requests");
         } else { 
             $(".requestTitle").html("You have friend requests below:");
             while (requests.includes(";") && requests.length>1){
                 var request = requests.substring(0,requests.indexOf(";"));
-                $("#insertRequests").append("<div id='req"+request+"' class='request'><img class='rounded-circle circle' src='https://i0.wp.com/researchictafrica.net/wp/wp-content/uploads/2016/10/default-profile-pic.jpg?fit=300%2C300&ssl=1'><p id='name'>"+request+"</p><div class='rounded-pill accept'>Accept</div><div class='rounded-pill decline'>Decline</div></div>");
                 requests = requests.substring(requests.indexOf(";")+1);
+                var pic = requests.substring(0,requests.indexOf(";"));
+                requests = requests.substring(requests.indexOf(";")+1);
+                $("#insertRequests").append("<div id='req"+request+"' class='request'><img class='rounded-circle circle' src='"+pic+"'><p id='name'>"+request+"</p><div class='rounded-pill accept'>Accept</div><div class='rounded-pill decline'>Decline</div></div>");
             }
         }
     });
@@ -368,7 +510,10 @@ function setChats(friend){
             if (sortedChats[x][0] == "me"){
                 $(area).append("<div class='w-100 myHolder'><div class='rounded-pill myChat'>"+sortedChats[x][1]+"</div></div>");
             } else {
-                $(area).append("<div class='theirHolder'><div class='theirChatName'>"+friend+"</div><div class='rounded-pill theirChat'>"+sortedChats[x][1]+"</div></div>");
+                if (x > 0 && sortedChats[x-1][0] == "them")
+                    $(area).append("<div class='theirHolder'><div class='rounded-pill theirChat'>"+sortedChats[x][1]+"</div></div>");
+                else
+                    $(area).append("<div class='theirHolder'><div class='theirChatName'>"+friend+"</div><div class='rounded-pill theirChat'>"+sortedChats[x][1]+"</div></div>");
             }
         }
         $(area).animate({ scrollTop: $('.chatArea')[0].scrollHeight}, 10);

@@ -4,6 +4,16 @@ include "connection.php";
 session_start();
 
 $user = $_SESSION["user"];
+
+if (!empty($_POST["friend"])){
+    $friend = $_POST["friend"];
+    $sql = "DELETE FROM messages WHERE sender='$user' AND receiver='$friend'";
+    if ($conn->query($sql) === FALSE) { echo "Error: " . $sql . "<br>" . $conn->error; }
+    $sql = "DELETE FROM messages WHERE sender='$friend' AND receiver='$user'";
+    if ($conn->query($sql) === FALSE) { echo "Error: " . $sql . "<br>" . $conn->error; }
+    return;
+}
+
 $receiver = $_COOKIE["receiver"];
 
 if (!empty($_POST["message"])){

@@ -1,7 +1,6 @@
 body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   background: #3b3b3b;
-  overflow: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -23,8 +22,13 @@ body {
 }
 
 #homeTitle {
-  font-size: 140px;
+  font-size: 160px;
+  line-height: 220px;
   -webkit-text-stroke: 2px #9c9c9c;
+}
+
+#usernameInput {
+  width: 700px;
 }
 
 .userTxt, .userGo {
@@ -101,8 +105,8 @@ body {
           filter: brightness(75%);
 }
 
-.logGrid, .logColors {
-  width: 60%;
+.logGrid, .logColors, .logSlides {
+  width: 500px;
   margin: auto;
   height: 100%;
   padding-top: 25px;
@@ -117,13 +121,7 @@ body {
 }
 
 .logSlides {
-  width: 80%;
-  margin: auto;
-  height: 100%;
-  padding-top: 25px;
-  padding-bottom: 20px;
-  background: white;
-  border: black 2px solid;
+  width: 700px;
 }
 
 .slider {
@@ -348,12 +346,45 @@ body {
   background: #a5c9e9;
   text-align: right;
   max-width: 70%;
+  overflow-wrap: break-word;
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 12px;
   padding-right: 12px;
   color: black;
   display: inline-block;
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.chatBox .chatArea .myHolder .myChat:hover {
+  background-color: #66abe8;
+}
+
+.chatBox .chatArea .myHolder .textOptions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 15px;
+  color: grey;
+  cursor: pointer;
+}
+
+.chatBox .chatArea .myHolder .textOptions .edit, .chatBox .chatArea .myHolder .textOptions .save {
+  margin-right: 5px;
+}
+
+.chatBox .chatArea .myHolder .textOptions .edit:hover, .chatBox .chatArea .myHolder .textOptions .save:hover {
+  color: black;
+}
+
+.chatBox .chatArea .myHolder .textOptions .delete, .chatBox .chatArea .myHolder .textOptions .cancel {
+  margin-left: 5px;
+}
+
+.chatBox .chatArea .myHolder .textOptions .delete:hover, .chatBox .chatArea .myHolder .textOptions .cancel:hover {
+  color: black;
 }
 
 .chatBox .chatArea .theirHolder {
@@ -364,6 +395,7 @@ body {
   background: darkgrey;
   text-align: left;
   max-width: 70%;
+  overflow-wrap: break-word;
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 12px;
@@ -395,12 +427,13 @@ body {
   z-index: 998;
   display: none;
   height: 100px;
-  width: 100vw;
+  width: 835px;
   background: steelblue;
   border-bottom: white 2px solid;
+  border-right: white 2px solid;
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
 }
 
 #addFriends .content {
@@ -425,7 +458,7 @@ body {
 #addFriends #sentMessage {
   display: none;
   position: absolute;
-  width: 100%;
+  width: 685px;
   height: 40px;
   top: 100px;
 }
@@ -434,12 +467,13 @@ body {
   z-index: 998;
   display: none;
   height: 50px;
-  width: 100vw;
+  width: 835px;
   background: steelblue;
   border-bottom: white 2px solid;
+  border-right: white 2px solid;
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
 }
 
 #requests .content {
@@ -470,12 +504,12 @@ body {
   display: -ms-flexbox;
   display: flex;
   height: 80px;
-  width: 100vw;
+  width: 685px;
   padding-top: 8px;
   padding-left: 15px;
   background: white;
-  border-top: 2px solid grey;
-  border-bottom: 2px solid grey;
+  border: solid grey;
+  border-width: 2px 2px 2px 0px;
 }
 
 #requests .request .circle {
@@ -534,13 +568,14 @@ body {
 #settings {
   z-index: 998;
   display: none;
-  height: 250px;
-  width: 100vw;
+  height: 325px;
+  width: 835px;
   background: steelblue;
   border-bottom: white 2px solid;
+  border-right: white 2px solid;
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
 }
 
 #settings .content {
@@ -611,6 +646,62 @@ body {
   background: limegreen;
 }
 
+#settings #buttonArea {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#settings #buttonArea #resetLocks {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-weight: bold;
+  width: 260px;
+  height: 50px;
+  line-height: 43px;
+  background: mediumblue;
+  border: 2px solid navy;
+  margin-top: 23px;
+  margin-left: 20px;
+  text-align: center;
+  cursor: pointer;
+  color: white;
+}
+
+#settings #buttonArea #resetLocks:hover {
+  background: navy;
+}
+
+#settings #buttonArea #deleteAcc {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-weight: bold;
+  width: 200px;
+  height: 50px;
+  line-height: 43px;
+  background: firebrick;
+  border: 2px solid darkred;
+  margin-top: 23px;
+  margin-left: 20px;
+  text-align: center;
+  cursor: pointer;
+  color: white;
+}
+
+#settings #buttonArea #deleteAcc:hover {
+  background: darkred;
+}
+
+#settings #emailSent {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  top: 325px;
+  background: lime;
+  color: green;
+}
+
 #requestSend, #redirectSend {
   -webkit-transition: 0.2s;
   transition: 0.2s;
@@ -633,5 +724,176 @@ body {
   height: 100%;
   background: #1a1a1a;
   position: absolute;
+}
+
+.lockSetContent, .chatSetContent {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  background-color: steelblue;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid black;
+}
+
+.lockSetContent .changeLock, .chatSetContent .changeLock {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-weight: bold;
+  font-size: 15px;
+  width: 150px;
+  height: 50px;
+  line-height: 43px;
+  background: chocolate;
+  border: 2px solid orange;
+  text-align: center;
+  cursor: pointer;
+}
+
+.lockSetContent .changeLock:hover, .chatSetContent .changeLock:hover {
+  background: orange;
+}
+
+.lockSetContent .deleteLock, .chatSetContent .deleteLock {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-weight: bold;
+  font-size: 15px;
+  width: 150px;
+  height: 50px;
+  line-height: 43px;
+  background: crimson;
+  border: 2px solid red;
+  text-align: center;
+  cursor: pointer;
+}
+
+.lockSetContent .deleteLock:hover, .chatSetContent .deleteLock:hover {
+  background: red;
+}
+
+.lockSetContent .deleteChats, .chatSetContent .deleteChats {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-weight: bold;
+  font-size: 15px;
+  width: 150px;
+  height: 50px;
+  line-height: 43px;
+  background: indigo;
+  border: 2px solid rebeccapurple;
+  text-align: center;
+  cursor: pointer;
+  color: white;
+}
+
+.lockSetContent .deleteChats:hover, .chatSetContent .deleteChats:hover {
+  background: rebeccapurple;
+}
+
+.lockSetContent .removeFriend, .chatSetContent .removeFriend {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-weight: bold;
+  font-size: 15px;
+  width: 150px;
+  height: 50px;
+  line-height: 43px;
+  background: navy;
+  border: 2px solid mediumblue;
+  text-align: center;
+  cursor: pointer;
+  color: white;
+}
+
+.lockSetContent .removeFriend:hover, .chatSetContent .removeFriend:hover {
+  background: mediumblue;
+}
+
+@media (min-width: 500px) and (max-width: 835px) {
+  .input-group {
+    width: 500px !important;
+  }
+  #settings, #addFriends, #requests {
+    height: auto;
+    width: 100vw;
+    padding-bottom: 20px;
+  }
+  #settings .input-group, #addFriends .input-group, #requests .input-group {
+    width: 75vw !important;
+  }
+}
+
+@media (min-width: 717px) and (max-width: 737px) {
+  #submitPic {
+    height: 70px !important;
+    line-height: 30px !important;
+  }
+}
+
+@media (min-width: 500px) and (max-width: 716px) {
+  #tryAddress, #submitPic {
+    height: 70px !important;
+    line-height: 30px !important;
+  }
+}
+
+@media (min-width: 500px) and (max-width: 558px) {
+  #resetLocks {
+    height: 70px !important;
+    line-height: 30px !important;
+  }
+}
+
+@media (min-width: 500px) and (max-width: 512px) {
+  #deleteAcc {
+    height: 70px !important;
+    line-height: 30px !important;
+  }
+}
+
+@media (max-width: 499px) {
+  #homeTitle {
+    font-size: 125px;
+  }
+  .box {
+    width: 40px;
+    height: 40px;
+  }
+  .logGrid, .logColors, .logSlides, .logColors, .logSlides, .logColors, .logSlides {
+    width: 300px;
+  }
+  .input-group {
+    width: 350px !important;
+  }
+  #navBar {
+    width: 100px;
+  }
+  #menuContainer {
+    left: 15px !important;
+  }
+  #menuLogo {
+    width: 6vh !important;
+  }
+  #menuDrop {
+    margin-left: 15px !important;
+  }
+  #friends {
+    top: 10.5vh !important;
+  }
+  .circle {
+    width: 70px !important;
+    height: 70px !important;
+    margin-left: 5px !important;
+  }
+  .name {
+    margin-left: 0px !important;
+    margin-right: 50px;
+  }
 }
 /*# sourceMappingURL=style.css.map */

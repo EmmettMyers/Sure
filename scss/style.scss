@@ -3,7 +3,6 @@ $hoverblue: rgb(48, 89, 122);
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     background: rgb(59, 59, 59);
-    overflow: hidden;
 }
 
 ::-webkit-scrollbar { width: 15px; }
@@ -12,8 +11,12 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: grey; }
 
 #homeTitle {
-    font-size: 140px;
+    font-size: 160px;
+    line-height: 220px;
     -webkit-text-stroke: 2px rgb(156,156,156);
+}
+#usernameInput {
+    width: 700px;
 }
 .userTxt { border: black; }
 .loginBottom {
@@ -66,7 +69,7 @@ body {
     }
 }
 .logGrid {
-    width: 60%;
+    width: 500px;
     margin: auto;
     height: 100%;
     padding-top: 25px;
@@ -80,13 +83,8 @@ body {
     padding-left: 20px;
 }
 .logSlides {
-    width: 80%;
-    margin: auto;
-    height: 100%;
-    padding-top: 25px;
-    padding-bottom: 20px;
-    background: white;
-    border: black 2px solid;
+    width: 700px;
+    @extend .logGrid;
 }
 .slider {
     width: 440px;
@@ -234,6 +232,7 @@ body {
             background: $color;
             text-align: $align;
             max-width: 70%;
+            overflow-wrap: break-word;
             padding-top: 8px; padding-bottom: 8px;
             padding-left: 12px; padding-right: 12px;
             color: black;
@@ -244,7 +243,26 @@ body {
             flex-flow: column;
             align-items: flex-end;
             padding: 5px;
-            .myChat { @include chatBubble(right, #a5c9e9); }
+            .myChat { 
+                @include chatBubble(right, #a5c9e9);
+                cursor: pointer;
+                transition: 0.2s;
+                &:hover { background-color: #66abe8; }
+            }
+            .textOptions {
+                display: flex;
+                font-size: 15px;
+                color: grey;
+                cursor: pointer;
+                .edit, .save {
+                    margin-right: 5px;
+                    &:hover { color: black; }
+                }
+                .delete, .cancel {
+                    margin-left: 5px;
+                    &:hover { color: black; }
+                }
+            }
         }
         .theirHolder {
             padding: 5px;
@@ -268,12 +286,13 @@ body {
     z-index: 998;
     display: none;
     height: $height;
-    width: 100vw;
+    width: 835px;
     background: steelblue;
     border-bottom: white 2px solid;
+    border-right: white 2px solid;
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     .content { margin-left: 150px; }
     .exit {
         position: absolute;
@@ -290,7 +309,7 @@ body {
     #sentMessage {
         display: none;
         position: absolute;
-        width: 100%;
+        width: 685px;
         height: 40px;
         top: 100px;
     }
@@ -308,12 +327,12 @@ body {
     .request {
         display: flex;
         height: 80px;
-        width: 100vw;
+        width: 685px;
         padding-top: 8px;
         padding-left: 15px;
         background: white;
-        border-top: 2px solid grey;
-        border-bottom: 2px solid grey;
+        border: solid grey;
+        border-width: 2px 2px 2px 0px;
         .circle {
             border: 2px solid black;
             width: 60px;
@@ -350,7 +369,21 @@ body {
 }
 
 #settings {
-    @include topScreens(250px);
+    @include topScreens(325px);
+    @mixin buttons($background, $border, $width){
+        transition: 0.2s;
+        font-weight: bold;
+        width: $width;
+        height: 50px;
+        line-height: 43px;
+        background: $background;
+        border: 2px solid $border;
+        margin-top: 23px;
+        margin-left: 20px;
+        text-align: center;
+        cursor: pointer;
+        &:hover { background: $border; }
+    }
     #picArea {
         display: flex;
         #profilePic {
@@ -360,27 +393,33 @@ body {
             width: 80px;
             height: 80px;
         }
-        @mixin picButtons($background, $border, $width){
-            transition: 0.2s;
-            font-weight: bold;
-            width: $width;
-            height: 50px;
-            line-height: 43px;
-            background: $background;
-            border: 2px solid $border;
-            margin-top: 23px;
-            margin-left: 20px;
-            text-align: center;
-            cursor: pointer;
-            &:hover { background: $border; }
-        }
         #tryAddress {
-            @include picButtons(orange, chocolate, 120px);
+            @include buttons(orange, chocolate, 120px);
         }
         #submitPic {
-            @include picButtons(lime, limegreen, 155px);
+            @include buttons(lime, limegreen, 155px);
             margin-left: 10px;
         }
+    }
+    #buttonArea {
+        display: flex;
+        #resetLocks {
+            @include buttons(mediumblue, navy, 260px);
+            color: white;
+        }
+        #deleteAcc {
+            @include buttons(firebrick, darkred, 200px);
+            color: white;
+        }
+    }
+    #emailSent {
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 40px;
+        top: 325px;
+        background: lime;
+        color: green;
     }
 }
 
@@ -401,4 +440,122 @@ body {
     height: 100%;
     background: rgb(26, 26, 26);
     position: absolute;
+}
+
+.lockSetContent, .chatSetContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: steelblue;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
+    @mixin lockButtons($border, $background){
+        transition: 0.2s;
+        font-weight: bold;
+        font-size: 15px;
+        width: 150px;
+        height: 50px;
+        line-height: 43px;
+        background: $background;
+        border: 2px solid $border;
+        text-align: center;
+        cursor: pointer;
+        &:hover { background: $border; }
+    }
+    .changeLock {
+        @include lockButtons(orange, chocolate);
+    }
+    .deleteLock {
+        @include lockButtons(red, crimson);
+    }
+    .deleteChats {
+        @include lockButtons(rebeccapurple, indigo);
+        color: white;
+    }
+    .removeFriend {
+        @include lockButtons(mediumblue, navy);
+        color: white;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 835px) {
+    .input-group {
+        width: 500px !important;
+    }
+    #settings, #addFriends, #requests {
+        height: auto;
+        width: 100vw;
+        padding-bottom: 20px;
+        .input-group {
+            width: 75vw !important;
+        }
+    }
+}
+
+@media (min-width: 717px) and (max-width: 737px) {
+    #submitPic {
+        height: 70px !important;
+        line-height: 30px !important;
+    }
+}
+@media (min-width: 500px) and (max-width: 716px) {
+    #tryAddress, #submitPic {
+        height: 70px !important;
+        line-height: 30px !important;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 558px) {
+    #resetLocks {
+        height: 70px !important;
+        line-height: 30px !important;
+    }
+}
+@media (min-width: 500px) and (max-width: 512px) {
+    #deleteAcc {
+        height: 70px !important;
+        line-height: 30px !important;
+    }
+}
+
+@media (max-width: 499px) {
+    #homeTitle {
+        font-size: 125px;
+    }
+    .box {
+        width: 40px;
+        height: 40px;
+    }
+    .logGrid, .logColors, .logSlides, .logColors, .logSlides {
+        width: 300px;
+    }
+    .input-group {
+        width: 350px !important;
+    }
+    #navBar {
+        width: 100px;
+    }
+    #menuContainer {
+        left: 15px !important;
+    }
+    #menuLogo {
+        width: 6vh !important;
+    }
+    #menuDrop {
+        margin-left: 15px !important;
+    }
+    #friends {
+        top: 10.5vh !important;
+    }
+    .circle {
+        width: 70px !important;
+        height: 70px !important;
+        margin-left: 5px !important;
+    }
+    .name {
+        margin-left: 0px !important;
+        margin-right: 50px;
+    }
 }

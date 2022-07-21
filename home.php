@@ -1,33 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    <link rel="stylesheet" href="scss/style.css">
-    <script src="js/passwords.js"></script>
-    <script src="js/home.js"></script>
-    <title>Sure Home</title>
-</head>
-<body>
-
 <?php
 
 include "ajax/connection.php";
 session_start();
 
 if (empty($_SESSION["user"])) echo '<script>window.location.href = "index.php";</script>';
+
 $user = $_SESSION["user"];
 $sql = "SELECT * FROM users WHERE username='$user'";
 $res = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($res);
 $friends = $row["friends"];
 $redirect = $row["redirect"];
+$email = $row["email"];
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
     if (!empty($_POST["message"])){
@@ -43,7 +27,33 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="scss/style.css">
+    <script src="js/passwords.js"></script>
+    <script src="js/home.js"></script>
+    <title>Sure Home</title>
+    <link rel="icon" href="https://www.pngall.com/wp-content/uploads/2/S-Letter-PNG-Image-HD.png">
+    <style type="text/css">.disclaimer { display: none; }</style>
+</head>
+<body style="overflow: hidden;">
+
 <script>
+    function getUser(){
+        return <?php echo(json_encode($user)); ?>;
+    }
+    function getEmail(){
+        return <?php echo(json_encode($email)); ?>;
+    }
     function getFriends(){
         return <?php echo(json_encode($friends)); ?>;
     }
@@ -104,11 +114,30 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         </div>
         <div id="redirectArea">
             <p class="mt-4 ms-4 mb-2 text-black fw-bold">Change double-click redirect URL:</p>
-            <div class="input-group">
+            <div class="input-group" style="width: 675px;">
                 <input type="text" id="redirect" class="form-control ms-3" placeholder="URL">
                 <input name="submit" type="submit" id="redirectSend" value="Send" class="me-4 btn modalEnd">
             </div>
         </div>
+        <div id="buttonArea">
+            <div class="rounded-pill" id="resetLocks">Remove All Chat Locks</div>
+            <div class="rounded-pill" id="deleteAcc">Delete Account</div>
+        </div>
+        <div id="emailSent" class="fw-bold ps-3 pt-2">Reset lock verification email sent to <?php echo $email?></div>
+    </div>
+</div>
+
+<div id="lockSettings">
+    <div class="lockSetContent">
+        <div class="changeLock rounded-pill">Change Lock</div>
+        <div class="deleteLock rounded-pill">Delete Lock</div>
+    </div>
+</div>
+
+<div id="chatSettings">
+    <div class="chatSetContent">
+        <div class="deleteChats rounded-pill">Delete Chats</div>
+        <div class="removeFriend rounded-pill">Remove Friend</div>
     </div>
 </div>
 
@@ -204,6 +233,13 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         </div>
     </div>
 </div>
+
+<script type="text/javascript"src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("kKFrgWjpc5Zvz1uTC");
+   })();
+</script>
 
 </body>
 </html>

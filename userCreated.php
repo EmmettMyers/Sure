@@ -15,7 +15,7 @@
 <body class="bg-dark">
     <div class="text-center fs-1 fw-bold vertCenter">
         <p style="color: lime;">User completed!</p>
-        <p class="text-white">Redirecting to Login...</p>
+        <p class="text-white">Redirecting to login...</p>
     </div>
 </body>
 

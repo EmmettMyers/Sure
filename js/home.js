@@ -25,15 +25,10 @@ $(document).ready(function(){
     });
 
     const boxes = document.querySelectorAll('.chatBox');
-    boxes.forEach(box => {
-        resize_box.observe(box);
-    });
+    boxes.forEach(box => { resize_box.observe(box); });
 
     $('body').dblclick(function(){
-        if (changedRedirect != "")
-            window.location.href = changedRedirect;
-        else 
-            window.location.href = getRedirect();
+        (changedRedirect != "") ? window.location.href = changedRedirect : window.location.href = getRedirect();
     });
 
     $(document).on('mousedown', '.chatBox', function(){
@@ -60,6 +55,7 @@ $(document).ready(function(){
             $(box+" .lockBox").empty();
             chatWindows[chatWindows.indexOf(friend)] = "";
         } else {
+            setInterval(friend);
             $(this).addClass('active');
             var opening = chatWindows.indexOf("");
             if (opening == -1) return;
@@ -100,6 +96,7 @@ $(document).ready(function(){
                         }
                     }
                 }
+                realTime(friend);
             });
         }
     });
@@ -460,6 +457,14 @@ $(document).ready(function(){
     });
 
 });
+
+function realTime(friend){
+    if (chatWindows.indexOf(friend) < 0) return;
+    setChats(friend);
+    setTimeout(function() {
+        realTime(friend);
+    }, 1000);
+}
 
 function setRequests(){
     $("#insertRequests").empty();

@@ -48,18 +48,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 <body style="overflow: hidden;">
 
 <script>
-    function getUser(){
-        return <?php echo(json_encode($user)); ?>;
-    }
-    function getEmail(){
-        return <?php echo(json_encode($email)); ?>;
-    }
-    function getFriends(){
-        return <?php echo(json_encode($friends)); ?>;
-    }
-    function getRedirect(){
-        return <?php echo(json_encode($redirect)); ?>;
-    }
+    let getUser = () => <?php echo(json_encode($user)); ?>;
+    let getEmail = () => <?php echo(json_encode($email)); ?>;
+    let getFriends = () => <?php echo(json_encode($friends)); ?>;
+    let getRedirect = () => <?php echo(json_encode($redirect)); ?>;
 </script>
 
 <div id="navBar" class="navbar bg-black">

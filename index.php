@@ -10,8 +10,8 @@
     <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <link rel="stylesheet" href="scss/style.css">
-    <script src="js/login.js"></script>
-    <script src="js/passwords.js"></script>
+    <script src="js/login.js" defer></script>
+    <script src="js/passwords.js" defer></script>
     <link rel="icon" href="https://www.pngall.com/wp-content/uploads/2/S-Letter-PNG-Image-HD.png">
     <style type="text/css">.disclaimer { display: none; }</style>
     <title>Sure Login</title>

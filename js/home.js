@@ -8,11 +8,12 @@ var changedRedirect = "";
 
 $(document).ready(function(){
 
-    var top = { level: 0, box: "" };
+    var top = { level: 0, box: "" }; // the box on top of other boxes
 
     showFriendChats(getFriends());
     $(".chatBox").draggable({ handle: ".top" });
 
+    // checks if there are any friend requests
     $.ajax({ method: "POST", url: "ajax/friendRequest.php"}) .done(function(msg){
         var requests = msg.substring(1);
         var numRequests = 0;
@@ -27,6 +28,7 @@ $(document).ready(function(){
     const boxes = document.querySelectorAll('.chatBox');
     boxes.forEach(box => { resize_box.observe(box); });
 
+    // redirect on double click function
     $('body').dblclick(function(){
         (changedRedirect != "") ? window.location.href = changedRedirect : window.location.href = getRedirect();
     });
@@ -37,6 +39,7 @@ $(document).ready(function(){
         $(this).css("z-index", top.level);
     });
 
+    // click on a friend chat circle, opens up chat box
     $(document).on('click', '.circle', function(){
         var friend = $(this).attr('id'); 
         document.cookie="receiver="+friend;
@@ -100,7 +103,9 @@ $(document).ready(function(){
             });
         }
     });
-
+    
+    
+    // closes chatbox
     $(document).on('click', '.close', function(){
         var friend = chatWindows[$(this).parent().attr('id').substring(1)];
         var box = "#c"+chatWindows.indexOf(friend);
@@ -119,6 +124,7 @@ $(document).ready(function(){
         chatWindows[chatWindows.indexOf(friend)] = "";
     });
 
+    // maximize chatbox
     $(document).on('click', '.windowLogo', function(){
         var id = $(this).parent().attr('id');
         if ($(this).width() == "25"){
@@ -134,6 +140,7 @@ $(document).ready(function(){
         }
     });
 
+    // resize chatbox's chat area based on window width
     $(window).resize(function(){
         for (var x = 0; x < 6; x++)
             if ($("#c"+x+" .windowLogo").width() == "25")
@@ -183,6 +190,7 @@ $(document).ready(function(){
         }
     });
 
+    // accept or decline friend request
     $(document).on('click', '.accept, .decline', function(){
         var friend = $(this).parent().attr('id').substring(3);
         var decision = "";
@@ -422,7 +430,8 @@ $(document).ready(function(){
             window.location.href = "index.php";
         });
     });
-
+    
+    // on click of a chat you sent, shows edit and delete options
     $(document).on('click', '.myChat', function(){
         if ($(this).parent().html().includes("textOptions"))
             $(this).parent().find(".textOptions").remove();
@@ -458,6 +467,7 @@ $(document).ready(function(){
 
 });
 
+// recursive function for consistent update of chats
 function realTime(friend){
     if (chatWindows.indexOf(friend) < 0) return;
     setChats(friend);
@@ -466,6 +476,7 @@ function realTime(friend){
     }, 1000);
 }
 
+// show friend requests
 function setRequests(){
     $("#insertRequests").empty();
     $.ajax({ method: "POST", url: "ajax/friendRequest.php"}) .done(function(requests){
@@ -484,6 +495,7 @@ function setRequests(){
     });
 }
 
+// show texts from opened chatbox
 function setChats(friend){
     $.ajax({ method: "POST", url: "ajax/getChats.php"}) .done(function(chat){
         var allChats = [];
@@ -525,6 +537,7 @@ function setChats(friend){
     });
 }
 
+// show friend circles that open the chatboxes
 function showFriendChats(friendList){
     $("#friends").empty();
     var friends = friendList.substring(1);
@@ -539,6 +552,7 @@ function showFriendChats(friendList){
     });
 }
 
+// changes chat area height when window is resized
 const resize_box = new ResizeObserver(function(entries){
     const [changed] = entries;
     var id = changed.target.id;

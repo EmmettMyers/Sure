@@ -8,11 +8,13 @@ var grid = [[0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]];
-var colorCode = "nnnnnn";
+            [0, 0, 0, 0, 0]]; // String value of grid passwords
+var colorCode = "nnnnnn"; // String value of color passwords
 
 $(document).ready(function(){
-
+            
+            
+    // creates color boxes and grid boxes
     for (var x = 0; x < 5; x++) $("#Grid").append("<div id='"+x+"' class='row justify-content-center'></div>");
     for (var x = 0; x < 5; x++) $("#Grid .row").append("<div id='"+x+"' class='box' style='border: white 2px solid;'></div>");
     for (var x = 1; x <= 6; x++){
@@ -88,6 +90,7 @@ $(document).ready(function(){
 
 });
 
+// resets passwords
 function resetCookies(){
     document.cookie="gridCode=0000000000000000000000000";
     $(".box").removeClass('active');
@@ -107,6 +110,7 @@ function setGridCode(){
     document.cookie="gridCode=" + gridString;
 }
 
+// shows login type based on account
 function showLogin(type, box){
     if (type == "Grid"){
         $(box+" .logGrid").css("display", "block");

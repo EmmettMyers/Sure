@@ -1,6 +1,6 @@
 # Sure
 
-<a href="https://drive.google.com/uc?export=view&id=1QpTASn0pk6txESG1LxhmVQ81shradLaR"><img src="https://drive.google.com/uc?export=view&id=1QpTASn0pk6txESG1LxhmVQ81shradLaR" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1QpTASn0pk6txESG1LxhmVQ81shradLaR"><img src="https://drive.google.com/uc?export=view&id=1QpTASn0pk6txESG1LxhmVQ81shradLaR" style="width: 400px; max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 [Live Demo](https://drive.google.com/file/d/13nnKTg7-8vtTcfH8g6AGDbO4fOUHspUh/view)
 

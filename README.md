@@ -19,7 +19,7 @@
  - Remove all chat locks with email verification
  - Forgot password email verification
  
- Tools used:
+  <b>Tools used:</b>
   - JavaScript - jQuery
   - PHP
   - MySQL

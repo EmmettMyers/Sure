@@ -6,7 +6,7 @@
  
  <a href="https://drive.google.com/uc?export=view&id=1c4HxaS4qRormDX_gavfSH7zo7kJDa3Cj"><img src="https://drive.google.com/uc?export=view&id=1c4HxaS4qRormDX_gavfSH7zo7kJDa3Cj" style="width: 400px; max-width: 100%; height: auto" title="Click to enlarge picture" />
 
-Sure is a security-emphasized multi-messaging website with:
+<b>Sure is a security-emphasized multi-messaging website with:</b>
  - 5 types of passwords (text, pin, grid, colors, slides)
  - Password locks on chats (optional and removable)
  - Customizable redirect URL when webpage is double-clicked

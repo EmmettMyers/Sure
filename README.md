@@ -1,6 +1,6 @@
 # Sure
 
-![ye](C:\Users\emmet\OneDrive\Pictures\Screenshots\sure 1.png)
+![ye](<img width="803" alt="sure 1" src="https://github.com/EmmettMyers/Sure/assets/73912165/ebf56f22-18df-4c61-a303-840e67d50c2f">)
 
 [Live Demo](https://drive.google.com/file/d/13nnKTg7-8vtTcfH8g6AGDbO4fOUHspUh/view)
 

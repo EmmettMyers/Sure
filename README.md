@@ -23,6 +23,5 @@
   - JavaScript - jQuery
   - PHP
   - MySQL
-  - CSS - Bootstrap, Sass
-  - HTML
+  - HTML/CSS - Bootstrap, Sass
   - phpMyAdmin, EmailJS

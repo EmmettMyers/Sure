@@ -2,9 +2,9 @@
 
 [Live Demo](https://drive.google.com/file/d/13nnKTg7-8vtTcfH8g6AGDbO4fOUHspUh/view)&nbsp;&nbsp;|&nbsp;&nbsp;<i>Created: Summer 2022 (Incoming College Freshman)</i>
 
-<a href="https://drive.google.com/uc?export=view&id=1QpTASn0pk6txESG1LxhmVQ81shradLaR"><img src="https://drive.google.com/uc?export=view&id=1QpTASn0pk6txESG1LxhmVQ81shradLaR" style="width: 450px; max-width: 100%; height: auto" title="Click to enlarge picture" />
- 
- <a href="https://drive.google.com/uc?export=view&id=1c4HxaS4qRormDX_gavfSH7zo7kJDa3Cj"><img src="https://drive.google.com/uc?export=view&id=1c4HxaS4qRormDX_gavfSH7zo7kJDa3Cj" style="width: 450px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<img src="photos/sure 1.png" style="width: 400px" />
+<img src="photos/sure 2.png" style="width: 400px" />
+<img src="photos/sure 3.png" style="width: 400px" />
 
 <b>Sure is a security-emphasized multi-messaging website with:</b>
  - 5 types of passwords (text, pin, grid, colors, slides)
